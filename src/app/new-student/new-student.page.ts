@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { Student } from '../models/student';
 import { StudentService } from '../services/student.service';
 
@@ -14,7 +16,7 @@ export class NewStudentPage implements OnInit {
   public myForm: FormGroup;
   public validationMessages: object;
 
-  constructor(private studentService: StudentService, private fb: FormBuilder) { }
+  constructor(private studentService: StudentService, private fb: FormBuilder, private toastController: ToastController, private router: Router) { }
 
   ngOnInit() {
     this.myForm = this.fb.group({
@@ -83,7 +85,19 @@ export class NewStudentPage implements OnInit {
     }
 
     console.log(this.studentService.newStudent(this.student));
+    this.presentToast('bottom')
+    this.router.navigate(['..']);
     
+  }
+
+  async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Estudiante agregado',
+      duration: 1500,
+      position: position
+    });
+
+    await toast.present();
   }
 
 }
