@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from '../models/student';
 import { StudentService } from '../services/student.service';
 
@@ -12,9 +12,10 @@ import { StudentService } from '../services/student.service';
 export class EditStudentPage implements OnInit {
   private student: Student;
   private myForm: FormGroup;
+  private stID: string;
   public validationMessages: object;
   
-  constructor(private ar: ActivatedRoute, private fs: StudentService, private fb: FormBuilder) { 
+  constructor(private ar: ActivatedRoute, private fs: StudentService, private fb: FormBuilder, private router: Router) { 
     this.student = {
       controlnumber: "",
       name: "",
@@ -50,10 +51,28 @@ export class EditStudentPage implements OnInit {
 
   ngOnInit() {
     this.ar.queryParams.subscribe(params => {
+      this.stID = params.id;
       this.fs.getStudentById(params.id).subscribe(item => {
         this.student = item as Student
       })
     })
+  }
+
+  public updateStudent(){
+    this.student = {
+      controlnumber: this.myForm.controls.controlnumber.value,
+      name: this.myForm.controls.name.value,
+      curp: this.myForm.controls.curp.value,
+      age: this.myForm.controls.age.value,
+      nip: this.myForm.controls.nip.value,
+      email: this.myForm.controls.email.value,
+      career: this.myForm.controls.career.value,
+      photo: this.myForm.controls.photo.value,
+      id: this.stID
+    }
+
+    console.log(this.fs.updateStudent(this.student));
+    this.router.navigate(['..']);
   }
 
 }

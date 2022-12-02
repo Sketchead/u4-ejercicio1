@@ -44,4 +44,8 @@ export class StudentService {
     this.firestore.collection('students').add(student);
   }
 
+  public updateStudent(student: Student){
+    this.firestore.collection('students').doc(student.id).set(student);
+  }
+
 }
