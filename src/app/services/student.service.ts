@@ -48,4 +48,8 @@ export class StudentService {
     this.firestore.collection('students').doc(student.id).set(student);
   }
 
+  /*
+  Para hacer query desde  
+  this.firestore.collection('tareas',ref => ref.where('completed', '==', false)).snapshotChanges();
+  this.firestore.collection('tareas').doc(id).update({completed:false}) */
 }

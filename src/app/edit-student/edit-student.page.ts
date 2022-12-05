@@ -10,8 +10,8 @@ import { StudentService } from '../services/student.service';
   styleUrls: ['./edit-student.page.scss'],
 })
 export class EditStudentPage implements OnInit {
-  private student: Student;
-  private myForm: FormGroup;
+  public student: Student;
+  public myForm: FormGroup;
   private stID: string;
   public validationMessages: object;
   
